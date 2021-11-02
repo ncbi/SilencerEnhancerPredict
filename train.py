@@ -14,6 +14,7 @@ import h5py
 INPUT_LENGTH = 1000
 EPOCH = 200
 BATCH_SIZE = 64
+WORK_DIR = "./"
 
 def run_model(data, model, save_dir):
 
@@ -93,90 +94,33 @@ def run_model(data, model, save_dir):
         of.write("3 \t %f\n" % fpr3_thre)
         of.write("1 \t %f\n" % fpr1_thre)
 
-def run_model(X, model):
-
-    Y = model.predict(X)
-    return Y
-
-
-def load_dataset(ENf, SLf, neg):
+def load_dataset(Dfile):
 
     print("reading enhancers...")
     data = {}
-    with h5py.File(ENf, "r") as inf:
+    with h5py.File(Dfile, "r") as inf:
         for _key in inf:
             data[_key] = inf[_key][()]
-
-    data["train_data"] = data["train_data"][..., np.newaxis]
-    data["test_data"] = data["test_data"][..., np.newaxis]
-    data["val_data"] = data["val_data"][..., np.newaxis]
-
-    data["train_labels"] = np.zeros(data["train_data"].shape[0])+2
-    data["test_labels"] = np.zeros(data["test_data"].shape[0])+2
-    data["val_labels"] = np.zeros(data["val_data"].shape[0])+2
-
-    print("reading silencers...")
-    SLdata = {}
-    with h5py.File(SLf, "r") as inf:
-        for _key in inf:
-            SLdata[_key] = inf[_key][()]
-
-    xi = SLdata["train_data"][..., np.newaxis]
-    data["train_data"] = np.vstack((data["train_data"], xi))
-    data["test_data"] = np.vstack((data["test_data"], SLdata["test_data"][..., np.newaxis]))
-    data["val_data"] = np.vstack((data["val_data"], SLdata["val_data"][..., np.newaxis]))
-    data["train_labels"] = np.concatenate((data["train_labels"], np.zeros(SLdata["train_data"].shape[0])+1))
-    data["test_labels"] = np.concatenate((data["test_labels"], np.zeros(SLdata["test_data"].shape[0])+1))
-    data["val_labels"] = np.concatenate((data["val_labels"], np.zeros(SLdata["val_data"].shape[0])+1))
-
-
-    print("reading controls...")
-    SLdata = {}
-    with h5py.File(neg, "r") as inf:
-        for _key in inf: 
-            SLdata[_key] = inf[_key][()]
-    
-    xi = SLdata["train_data"][..., np.newaxis]
-    data["train_data"] = np.vstack((data["train_data"], xi))
-    data["test_data"] = np.vstack((data["test_data"], SLdata["test_data"][..., np.newaxis]))
-    data["val_data"] = np.vstack((data["val_data"], SLdata["val_data"][..., np.newaxis]))
-    data["train_labels"] = np.concatenate((data["train_labels"], np.zeros(SLdata["train_data"].shape[0])))
-    data["test_labels"] = np.concatenate((data["test_labels"], np.zeros(SLdata["test_data"].shape[0])))
-    data["val_labels"] = np.concatenate((data["val_labels"], np.zeros(SLdata["val_data"].shape[0])))
-
-    print("training enhancers:", (data["train_labels"]==2).sum())
-    print("training silencer:", (data["train_labels"]==1).sum())
-    print("training controls:", (data["train_labels"]==0).sum())
-
     return data
 
+def train_model(Dfile,results_dir):
 
-def train_model(ENf,SLf, negf, results_dir):
-
-    phase_two_model_file = WORK_DIR + "/source_files/model.hdf5"
-    model = load_model(phase_two_model_file)
+    model_file = WORK_DIR + "/source_files/model.hdf5"
+    model = load_model(model_file)
    
-    if not os.path.exists(ENf):
-        print("no data file"+ENf)
+    if not os.path.exists(Dfile):
+        print("no data file"+Dfile)
         exit()
-    if not os.path.exists(SLf):
-        print("no data file"+SLf)
-        exit()
-    if not os.path.exists(negf):
-        print("no data file"+negf)
-        exit()
-    if not os.path.exists(results_dir):
-        os.mkdir(results_dir)
-    
-    data = load_dataset(ENf,SLf,negf)
+        
+    data = load_dataset(Dfile)
     run_model(data, model, results_dir)
 
-
+    
 if __name__ == "__main__":
 
     import sys
-    enhancer_file = sys.argv[1]
-    silencer_file = sys.argv[2]
-    neg_file = sys.argv[3]
-    results_dir = sys.argv[4]
-    train_model(enhancer_file, silencer_file, neg_file, results_dir)
+    data = sys.argv[1]
+    results_dir = sys.argv[2]
+    if not os.path.exists(results_dir):
+         os.mkdir(results_dir)
+    train_model(data, results_dir)
