@@ -123,4 +123,4 @@ if __name__ == "__main__":
     results_dir = sys.argv[2]
     if not os.path.exists(results_dir):
          os.mkdir(results_dir)
-    train_model(data, results_dir)
+    train_model(data,results_dir)
