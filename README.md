@@ -3,7 +3,8 @@
 ### Traing a model 
 input: data file, and target directory for the results
 
-        A data file includes training and validation sample sets. Each sample set is represented by:
+        A data file includes training and validation sample sets. 
+        Each sample set is represented by:
            a one-hot-encode DNA sequence matrix in a size of N * 1000 * 4, 
            a 3-class matrix in a size of N * 3. N is the number of samples.
  
