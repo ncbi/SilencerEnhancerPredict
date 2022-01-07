@@ -1,4 +1,4 @@
-# SilencerPred
+# CNN model for predicting enhancers and silencers
 ## How to use
 ### Traing a model 
 input: data file, and target directory for the results
