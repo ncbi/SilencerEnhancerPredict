@@ -3,7 +3,9 @@
 ### Traing a model 
 input: data file, and target directory for the results
 
-A data file include a one-hot-encode DNA sequence matrix in a size of N * 1000 * 4, and a 3-class matrix in a size of N * 3. N is the number of samples.
+        A data file includes training and validation sample sets. Each sample set is represented by:
+           a one-hot-encode DNA sequence matrix in a size of N * 1000 * 4, 
+           a 3-class matrix in a size of N * 3. N is the number of samples.
  
 example:
 python train.py  ./examples/data_training.hdf5 ./examples/
