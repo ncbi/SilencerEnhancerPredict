@@ -8,7 +8,8 @@ prerequisite: the whole_genome_sequence_file (downloaded from the USCS genome br
         generate_data.py enhancers.bed silencers.bed controls.bed outputdata genome.fasta
 
 example:
-        generate_data.py tempEN.bed tempSL.bed tempBK.bed temp.data.hdf5 hg19.fa
+
+        generate_data.py ./examples/tempEN.bed ./examples/tempSL.bed ./examples/tempBK.bed temp.data.hdf5 hg19.fa
 
 ## Traing a model 
 input: data file, and target directory for the results
