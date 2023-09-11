@@ -1,6 +1,16 @@
 # CNN model for predicting enhancers and silencers
 ## How to use
-### Traing a model 
+
+### Generate data 
+
+prerequisite: the whole_genome_sequence_file (downloaded from the USCS genome browse, it is too big to be included here).
+
+generate_data.py enhancers.bed silencers.bed controls.bed outputdata genome.fasta
+
+example:
+generate_data.py tempEN.bed tempSL.bed tempBK.bed temp.data.hdf5 hg19.fa
+
+## Traing a model 
 input: data file, and target directory for the results
 
         A data file includes training and validation sample sets. 
