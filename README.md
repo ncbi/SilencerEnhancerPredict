@@ -1,7 +1,7 @@
 # CNN model for predicting enhancers and silencers
 ## How to use
 
-### Generate data 
+### Generating data 
 
 prerequisite: the whole_genome_sequence_file (downloaded from the USCS genome browse, it is too big to be included here).
 
