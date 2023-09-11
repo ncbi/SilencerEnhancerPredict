@@ -12,8 +12,8 @@ from sklearn import metrics
 import h5py
 train_chromosomes = ["chr1", "chr2", "chr3", "chr4", "chr5", "chr6", "chr10", "chr11", "chr12", "chr13",
                      "chr14", "chr15", "chr16", "chr17", "chr18", "chr19", "chr20", "chr21", "chr22"]
-validation_chromosomes = ["chr7"]
-test_chromosomes = ["chr8", "chr9"]
+validation_chromosomes = ["chr6"]
+test_chromosomes = ["chr7", "chr8"]
 
 nucleotides = ['A', 'C', 'G', 'T']
 INPUT_LENGTH = 1000
